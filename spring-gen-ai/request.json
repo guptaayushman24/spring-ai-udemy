@@ -1,0 +1,9 @@
+curl --location 'http://localhost:8080/api/openai/chat/summariz' \
+--header 'Content-Type: application/json' \
+--data '{
+    "query":"Artificial Intelligence is gradually transforming the education system by making learning more personalized and accessible. Traditional classrooms generally follow a fixed teaching approach, where every student receives the same material regardless of their learning speed or understanding. However, AI-powered platforms can analyze a student'\''s performance, identify weak areas, and recommend learning materials based on individual needs.
+
+Despite these advantages, the integration of AI into education also presents several challenges. Students may become overly dependent on AI tools, reducing their ability to think critically and solve problems independently. Additionally, concerns regarding data privacy, inaccurate information, and unequal access to technology remain significant.
+
+To make the best use of AI, educational institutions should treat it as a supporting tool rather than a replacement for teachers. Teachers can focus on mentoring, creativity, and practical learning while AI handles repetitive tasks and provides personalized assistance. Ultimately, the success of AI in education depends on maintaining a balance between technological advancement and human interaction."
+}'
