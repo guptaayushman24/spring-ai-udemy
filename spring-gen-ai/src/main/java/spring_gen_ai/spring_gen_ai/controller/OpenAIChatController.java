@@ -103,3 +103,45 @@ If you only need metadata and no advisor context, .chatResponse() is lighter tha
 /*promptTokens (115): the tokens in everything you sent to the model. That's the system prompt, the user's text, and any extra context such as chat history or RAG documents. Here it's mostly SYSTEM_PROMPT plus the text to summarize.
 completionTokens (66): the tokens in the model's reply, which is the summary it generated.
 totalTokens (181): prompt plus completion. This is the figure that hosted providers like OpenAI bill on, usually at different per-token rates for input and output. */
+
+
+/*
+  ChatClient -> Perform stateless request to an using a fluent API
+  ChatModel -> Perform the model 
+*/
+
+/*
+  ChatClient Interface -> Default ChatClientImplementation 
+  // ChatClientResponseSpec+CallResponseSpec
+*/
+
+/*
+  ChatModel Interface -> The implemetation of ChatModel provided different implementation per AI model
+*/
+
+/*
+  call () => call the AI model
+ */
+
+  /*
+    Advisor architecture => Flexible,modular way to intercpt,modify or extend the behaviour of chat request and response
+  */
+
+
+/*Call	Purpose
+chatClient.prompt()	Starts a new request and returns a ChatClientRequestSpec, a builder for one call. It holds the system text, user text, params, options and advisors until you send it. Each call to prompt() is a fresh, independent request.
+.system(...)	Sets the instructions that shape the model's behaviour for this request.
+.user(...)	Sets the user's message. With the lambda form (u -> u.text(...).param(...)) it fills {placeholders}.
+.call()	Sends the request to the model and waits for the full reply. The alternative is .stream(), which returns tokens as they arrive.
+.chatClientResponse()	Chooses what to read from the reply. It returns the full response object.
+What .chatClientResponse() returns
+
+It returns a ChatClientResponse, which has two parts:
+
+chatResponse(): the reply text plus metadata (token usage, model name, finish reason, response ID).
+context(): a map that advisors write to, such as RAG documents or memory info.
+The other ways to finish the chain are:
+
+.content() returns only the reply text, as a String.
+.chatResponse() returns the reply plus metadata, without the advisor context. It's lighter than .chatClientResponse().
+.entity(MyClass.class) returns the reply parsed into a Java object */
