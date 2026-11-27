@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.converter.ListOutputConverter;
 import org.springframework.ai.converter.MapOutputConverter;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,16 @@ public class StructureOutputController {
 
   @PostMapping ("/list-structure")
   public List<String> structuredOutputList (@RequestBody RequestDTO requestDTO){
+
+    // Override the model of the which is defined in the application.yaml
+    ChatOptions.Builder <?> chatOption = ChatOptions.builder();
+    
+    chatOption.model("llama3.2:latest")
+    .maxTokens(100)
+    .build();
+
     return chatClient.prompt()
+    .options(chatOption)
     .user(requestDTO.getQuery())
     .call()
     .entity(new ListOutputConverter());
