@@ -1,3 +1,21 @@
 spring:
   application:
     name: spring-ai
+  ai:
+    openai:
+      # Ollama exposes an OpenAI-compatible API under /v1
+      base-url: http://localhost:11434/v1
+      api-key: ollama   # required by the client, ignored by Ollama
+      chat:
+        options:
+          model: qwen2.5:7b
+          temperature: 0.7
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen2.5:7b
+        temperature: 0.7
+logging:
+  level:
+    root: INFO
+    '[org.springframework.ai]': INFO
