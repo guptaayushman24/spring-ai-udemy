@@ -17,3 +17,4 @@ logging:
   level:
     root: INFO
     '[org.springframework.ai]': INFO
+    '[org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor]': DEBUG
