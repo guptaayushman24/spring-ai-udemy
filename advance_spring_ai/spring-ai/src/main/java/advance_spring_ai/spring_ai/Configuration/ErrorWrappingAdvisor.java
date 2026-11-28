@@ -23,7 +23,11 @@ public class ErrorWrappingAdvisor implements CallAdvisor {
       return chain.nextCall(request);
     } catch (Exception e) {
       log.error("LLM call failed", e);
-      var message = new AssistantMessage("Please do not ask and share any sensitive information in the query");
+      // Validation errors are safe to show; anything else stays generic (details are in the log)
+      String text = e instanceof IllegalArgumentException
+          ? e.getMessage()
+          : "Something went wrong. Please try again.";
+      var message = new AssistantMessage(text);
       return ChatClientResponse.builder()
           .chatResponse(new ChatResponse(List.of(new Generation(message))))
           .context(request.context())

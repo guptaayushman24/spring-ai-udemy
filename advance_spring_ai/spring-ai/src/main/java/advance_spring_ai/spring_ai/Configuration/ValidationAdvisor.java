@@ -12,11 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j 
 @Component 
 public class ValidationAdvisor implements CallAdvisor{
-  public Integer MAX_TOKENS = 10;
+  private static final int MAX_PROMPT_CHARS = 4000;
   private void validateInput(ChatClientRequest chatClientRequest){
     String input = chatClientRequest.prompt().getContents();
-    if (input.length()>MAX_TOKENS){
-      throw new IllegalArgumentException("Prompt too long: exceeds "+MAX_TOKENS+" characters!");
+    if (input.length()>MAX_PROMPT_CHARS){
+      throw new IllegalArgumentException("Prompt too long: exceeds "+MAX_PROMPT_CHARS+" characters!");
     }
   }
 
