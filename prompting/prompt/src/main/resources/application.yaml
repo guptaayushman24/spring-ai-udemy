@@ -1,3 +1,20 @@
 spring:
   application:
     name: prompt
+  ai:
+    openai:
+      # Ollama exposes an OpenAI-compatible API under /v1
+      base-url: http://localhost:11434/v1
+      api-key: ollama   # required by the client, ignored by Ollama
+      chat:
+        model: qwen2.5:7b
+        temperature: 0.7        # randomness: lower is more consistent
+        top-p: 0.9              # sample only from the top 90% of probability mass
+        max-tokens: 1000        # upper limit on the reply length
+        frequency-penalty: 0.0  # above 0 discourages repeating the same words
+        presence-penalty: 0.0   # above 0 encourages new topics
+logging:
+  level:
+    root: INFO
+    '[org.springframework.ai]': INFO
+    '[org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor]': DEBUG
