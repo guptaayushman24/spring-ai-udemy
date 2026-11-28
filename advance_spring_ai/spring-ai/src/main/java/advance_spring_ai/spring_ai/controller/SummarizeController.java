@@ -122,6 +122,8 @@ public class SummarizeController {
       chatOption.maxTokens(200)
       //.temperature(0.0) // As temperature is 0 there is no randomness in the output we will get same response each time
       .temperature(2.0)
+      //.topP(0.1) // Here it will give the same result as 0.1 cummilative probability will be completed at first level and always 1st token will be taken
+      .topP(0.9) // Here it will be generate random response because tokens will bve selected more
       .build();
 
       return chatClient.prompt()
@@ -130,6 +132,20 @@ public class SummarizeController {
       .call()
       .content();
    }
+
+   @PostMapping("/general-chat-stoping-paragraph")
+   public String generalChatStoppingParagraph (@RequestBody RequestDTO requestDTO){
+      ChatOptions.Builder<?> chatOptions = ChatOptions.builder()
+      .maxTokens(1000)
+      .stopSequences(List.of("END_OF_PARAGRAPH"));
+
+      return chatClient.prompt()
+      .options(chatOptions)
+      .user(requestDTO.getQuery())
+      .call()
+      .content();
+   }
+   
 }
 
 
@@ -142,6 +158,15 @@ public class SummarizeController {
 
 // 3 => Temperature setting
 // Temperature Rage (0-2) (0=deterministic 1+ = mode random)
+
+// 4 => Top_p :- Controlled randamness using nuclear sampling
+         // Restrict the probability mass by considering token whose cumulative probability adds up to a percentage
+
+ // 5 => Top_k :- Consider top-K most likely tokens
+         // Higher top-K higer randomness (If top_k = 3) token_1,token_2 and token_3 are taken and rest are removed
+
+   // 6 => Frequency Penalty and Presence Penalty (Specific to Open AI)
+   // Rage of both the penalty is -2.0 to +2.0
 
 // 0 => Always picks top token (greedy)
 // 0.2-0.5 => Very focused,factual
